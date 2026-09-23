@@ -49,9 +49,12 @@ function statusBadge(status) {
     'on-leave':  'badge-pending',
     expired:     'badge-inactive',
     // Trip-specific statuses
-    planned:     'badge-planned',
-    loading:     'badge-loading',
-    delivered:   'badge-delivered',
+    planned:          'badge-planned',
+    loading:          'badge-loading',
+    delivered:        'badge-delivered',
+    // Invoice-specific statuses
+    issued:           'badge-issued',
+    'partially-paid': 'badge-partial',
   };
   const cls = map[status] || 'badge-draft';
   const label = status ? status.replace('-', ' ').replace(/\b\w/g, c => c.toUpperCase()) : '—';

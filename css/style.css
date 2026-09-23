@@ -379,6 +379,13 @@ tbody tr:last-child { border-bottom: none; }
 .badge-delivered { background: rgba(16,185,129,0.12); color: #6ee7b7; }
 .badge-delivered::before { background: #6ee7b7; }
 
+/* Invoice-specific status badges */
+.badge-issued { background: rgba(37,99,235,0.12); color: #93c5fd; }
+.badge-issued::before { background: #93c5fd; }
+
+.badge-partial { background: rgba(245,158,11,0.12); color: #fcd34d; }
+.badge-partial::before { background: #fcd34d; }
+
 /* ---- BUTTONS ---- */
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
