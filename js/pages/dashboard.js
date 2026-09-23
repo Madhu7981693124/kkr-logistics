@@ -94,7 +94,7 @@ function _dashStats() {
 
   // ── E-Way Bills expiring within 3 days ───────────────────────────────────
   const expiring = ewayBills.filter(e => {
-    if (e.status !== 'active') return false;
+    if (e.status === 'cancelled') return false;
     const d = daysFromNow(e.validUpto);
     return d !== null && d >= 0 && d <= 3;
   }).sort((a,b) => a.validUpto.localeCompare(b.validUpto));
@@ -460,16 +460,27 @@ function renderDashboard() {
             <button class="btn btn-sm btn-secondary" onclick="navigate('eway')">${icon('chevronRight',13)}</button>
           </div>
           ${s.expiring.length === 0
-            ? `<div style="padding:16px 0;text-align:center;color:var(--text-muted);font-size:12px">${icon('check',16)} All e-way bills valid</div>`
+            ? `<div style="padding:16px 0;text-align:center;color:var(--text-muted);font-size:12px">
+                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px"><polyline points="20 6 9 17 4 12"/></svg>
+                 All e-way bills valid
+               </div>`
             : s.expiring.map(e => {
-                const d = daysFromNow(e.validUpto);
-                const col = d === 0 ? '#ef4444' : d === 1 ? '#f59e0b' : '#60a5fa';
+                const d   = daysFromNow(e.validUpto);
+                const col = d === 0 ? '#ef4444' : d <= 1 ? '#f87171' : '#fbbf24';
+                const lbl = d === 0 ? 'TODAY' : d === 1 ? '1 day' : d+'d';
                 return `
-                <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(51,65,85,0.3)">
-                  <div style="width:36px;height:36px;border-radius:8px;background:rgba(239,68,68,0.12);display:flex;align-items:center;justify-content:center;color:#f87171;flex-shrink:0;font-size:13px;font-weight:800">${d}d</div>
-                  <div style="flex:1;overflow:hidden">
-                    <div style="font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.billNo}</div>
-                    <div style="font-size:11px;color:var(--text-muted)">${e.from} → ${e.to} · ${fmtDate(e.validUpto)}</div>
+                <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(51,65,85,0.3);cursor:pointer" onclick="navigate('eway')">
+                  <div style="width:40px;height:40px;border-radius:8px;background:${col}18;border:1px solid ${col}40;display:flex;flex-direction:column;align-items:center;justify-content:center;color:${col};flex-shrink:0">
+                    <span style="font-size:12px;font-weight:900;line-height:1">${lbl}</span>
+                    <span style="font-size:9px;font-weight:600;opacity:.8">${d===0?'':'left'}</span>
+                  </div>
+                  <div style="flex:1;overflow:hidden;min-width:0">
+                    <div style="font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-primary)">${e.billNo}</div>
+                    <div style="font-size:11px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      ${(e.pickup||e.from||'')} → ${(e.destination||e.to||'')}
+                      ${e.customer ? ' · '+KKR.customerName(e.customer) : ''}
+                    </div>
+                    <div style="font-size:10px;color:${col};font-weight:600;margin-top:1px">Expires ${fmtDate(e.validUpto)}</div>
                   </div>
                 </div>`;}).join('')}
         </div>
