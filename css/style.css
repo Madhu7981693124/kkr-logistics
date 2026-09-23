@@ -369,6 +369,16 @@ tbody tr:last-child { border-bottom: none; }
 .badge-draft { background: rgba(148,163,184,0.15); color: #94a3b8; }
 .badge-draft::before { background: #94a3b8; }
 
+/* ---- Trip-specific status badges ---- */
+.badge-planned { background: rgba(148,163,184,0.12); color: #cbd5e1; }
+.badge-planned::before { background: #cbd5e1; }
+
+.badge-loading { background: rgba(245,158,11,0.15); color: #fbbf24; }
+.badge-loading::before { background: #fbbf24; }
+
+.badge-delivered { background: rgba(16,185,129,0.12); color: #6ee7b7; }
+.badge-delivered::before { background: #6ee7b7; }
+
 /* ---- BUTTONS ---- */
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
