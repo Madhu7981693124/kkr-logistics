@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KKR Logistics — Business Management</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============================================================ SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">KK</div>
+    <div class="logo-text">
+      <div class="brand">KKR Logistics</div>
+      <div class="sub">Business System</div>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+
+    <div class="nav-section-label">MAIN</div>
+    <a class="nav-item" data-page="dashboard" data-tooltip="Dashboard" onclick="navigate('dashboard')">
+      <span class="nav-icon" id="ni-dashboard">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      </span>
+      <span class="nav-label">Dashboard</span>
+    </a>
+    <a class="nav-item" data-page="calendar" data-tooltip="Calendar" onclick="navigate('calendar')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </span>
+      <span class="nav-label">Calendar</span>
+    </a>
+
+    <div class="nav-section-label">OPERATIONS</div>
+    <a class="nav-item" data-page="trips" data-tooltip="Trips" onclick="navigate('trips')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </span>
+      <span class="nav-label">Trips</span>
+    </a>
+    <a class="nav-item" data-page="vehicles" data-tooltip="Vehicles" onclick="navigate('vehicles')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </span>
+      <span class="nav-label">Vehicles</span>
+    </a>
+    <a class="nav-item" data-page="drivers" data-tooltip="Drivers" onclick="navigate('drivers')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </span>
+      <span class="nav-label">Drivers</span>
+    </a>
+    <a class="nav-item" data-page="weighbridge" data-tooltip="Weighbridge" onclick="navigate('weighbridge')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </span>
+      <span class="nav-label">Weighbridge</span>
+    </a>
+    <a class="nav-item" data-page="materials" data-tooltip="Materials" onclick="navigate('materials')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      </span>
+      <span class="nav-label">Materials</span>
+    </a>
+
+    <div class="nav-section-label">FINANCE</div>
+    <a class="nav-item" data-page="billing" data-tooltip="Billing" onclick="navigate('billing')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </span>
+      <span class="nav-label">Billing</span>
+    </a>
+    <a class="nav-item" data-page="payments" data-tooltip="Payments" onclick="navigate('payments')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      </span>
+      <span class="nav-label">Payments</span>
+    </a>
+    <a class="nav-item" data-page="expenses" data-tooltip="Expenses" onclick="navigate('expenses')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </span>
+      <span class="nav-label">Expenses</span>
+    </a>
+    <a class="nav-item" data-page="fuel" data-tooltip="Fuel" onclick="navigate('fuel')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22V8l9-5v19"/><path d="M11 9h10v13H11"/><path d="M14 9v4h4V9"/></svg>
+      </span>
+      <span class="nav-label">Fuel</span>
+    </a>
+
+    <div class="nav-section-label">RECORDS</div>
+    <a class="nav-item" data-page="customers" data-tooltip="Customers" onclick="navigate('customers')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </span>
+      <span class="nav-label">Customers</span>
+    </a>
+    <a class="nav-item" data-page="eway" data-tooltip="E-Way Bills" onclick="navigate('eway')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </span>
+      <span class="nav-label">E-Way Bills</span>
+    </a>
+    <a class="nav-item" data-page="documents" data-tooltip="Documents" onclick="navigate('documents')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13,2 13,9 20,9"/></svg>
+      </span>
+      <span class="nav-label">Documents</span>
+    </a>
+    <a class="nav-item" data-page="reports" data-tooltip="Reports" onclick="navigate('reports')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </span>
+      <span class="nav-label">Reports</span>
+    </a>
+
+    <div class="nav-section-label">SYSTEM</div>
+    <a class="nav-item" data-page="alerts" data-tooltip="Alerts" onclick="navigate('alerts')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </span>
+      <span class="nav-label">Alerts</span>
+      <span class="badge" id="nav-alerts-badge" style="display:none">0</span>
+    </a>
+    <a class="nav-item" data-page="settings" data-tooltip="Settings" onclick="navigate('settings')">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </span>
+      <span class="nav-label">Settings</span>
+    </a>
+
+  </div><!-- /sidebar-nav -->
+
+  <!-- Sidebar bottom -->
+  <div class="sidebar-bottom">
+    <div class="nav-item" style="cursor:default">
+      <div style="width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#2563eb,#7c3aed); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; color:#fff; flex-shrink:0">RK</div>
+      <div class="nav-label" style="overflow:hidden">
+        <div style="font-size:12px; font-weight:700; color:var(--text-primary); overflow:hidden; text-overflow:ellipsis; white-space:nowrap" id="topbar-business">KKR Logistics</div>
+        <div style="font-size:10px; color:var(--text-muted)">Owner</div>
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- ============================================================ /SIDEBAR -->
+
+<!-- ============================================================ TOPBAR -->
+<header id="topbar">
+  <button class="topbar-toggle" onclick="toggleSidebar()" title="Toggle sidebar">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+
+  <div class="topbar-breadcrumb">
+    <div class="page-title" id="topbar-page-title">Dashboard</div>
+    <div class="page-sub" id="topbar-page-sub">Overview & KPIs</div>
+  </div>
+
+  <div class="topbar-search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="global-search" placeholder="Quick navigate... (try 'trips')">
+  </div>
+
+  <div class="topbar-actions">
+    <button class="icon-btn" onclick="navigate('calendar')" title="Calendar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    </button>
+    <button class="icon-btn" onclick="navigate('alerts')" title="Alerts" style="position:relative">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span id="alert-badge" class="dot" style="display:none"></span>
+    </button>
+    <div class="avatar-btn" onclick="navigate('settings')" title="Settings">RK</div>
+
+    <!-- Session chip -->
+    <div id="session-info-chip" title="Active session"></div>
+
+    <!-- Logout -->
+    <button id="logout-btn" onclick="KKR_AUTH.logout('manual')" title="Log out">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      <span class="logout-label">Logout</span>
+    </button>
+  </div>
+</header>
+<!-- ============================================================ /TOPBAR -->
+
+<!-- ============================================================ MAIN CONTENT -->
+<main id="main-content">
+  <!-- Page content injected by JS -->
+  <div style="display:flex; align-items:center; justify-content:center; height:60vh; color:#475569">
+    <div style="text-align:center">
+      <div style="font-size:32px; font-weight:800; margin-bottom:8px">Loading...</div>
+    </div>
+  </div>
+</main>
+<!-- ============================================================ /MAIN CONTENT -->
+
+<!-- ============================================================ CONFIRM MODAL -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <div class="modal-title">Confirm Delete</div>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex; gap:14px; align-items:flex-start">
+        <div style="color:#f87171; flex-shrink:0; margin-top:2px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <p id="confirm-msg" style="font-size:14px; color:var(--text-primary)"></p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button id="confirm-no" class="btn btn-secondary">Cancel</button>
+      <button id="confirm-yes" class="btn btn-danger">Delete</button>
+    </div>
+  </div>
+</div>
+<!-- ============================================================ /CONFIRM MODAL -->
+
+<!-- ============================================================ TOAST -->
+<div id="toast-container"></div>
+
+<!-- ============================================================ SCRIPTS -->
+<!-- Data & Utilities -->
+<script src="js/data.js"></script>
+<script src="js/utils.js"></script>
+
+<!-- Page modules -->
+<script src="js/pages/dashboard.js"></script>
+<script src="js/pages/trips.js"></script>
+<script src="js/pages/vehicles.js"></script>
+<script src="js/pages/drivers.js"></script>
+<script src="js/pages/materials.js"></script>
+<script src="js/pages/weighbridge.js"></script>
+<script src="js/pages/fuel.js"></script>
+<script src="js/pages/expenses.js"></script>
+<script src="js/pages/billing.js"></script>
+<script src="js/pages/payments.js"></script>
+<script src="js/pages/customers.js"></script>
+<script src="js/pages/eway.js"></script>
+<script src="js/pages/documents.js"></script>
+<script src="js/pages/reports.js"></script>
+<script src="js/pages/calendar.js"></script>
+<script src="js/pages/alerts.js"></script>
+<script src="js/pages/settings.js"></script>
+
+<!-- Auth engine (must load before app.js) -->
+<script src="js/auth.js"></script>
+
+<!-- App controller -->
+<script src="js/app.js"></script>
+
+</body>
+</html>
