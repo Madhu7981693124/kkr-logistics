@@ -45,7 +45,7 @@ function _matTonnage(trips, materials) {
   const map = {};
   trips.filter(t => t.status !== 'cancelled').forEach(t => {
     const name = (materials.find(m => m.id === t.material) || {}).name || t.material || 'Unknown';
-    map[name] = (map[name] || 0) + (t.billedWt || 0);
+    map[name] = (map[name] || 0) + (t.quantity || t.billedWt || 0);
   });
   return Object.entries(map).sort((a, b) => b[1] - a[1]).slice(0, 6);
 }
@@ -74,8 +74,8 @@ function _dashStats() {
 
   const totalTons = trips
     .filter(t => t.status !== 'cancelled')
-    .reduce((s, t) => s + (t.billedWt || 0), 0);
-  const todayTons = todayTrips.reduce((s, t) => s + (t.billedWt || 0), 0);
+    .reduce((s, t) => s + (t.quantity || t.billedWt || 0), 0);
+  const todayTons = todayTrips.reduce((s, t) => s + (t.quantity || t.billedWt || 0), 0);
 
   // ── Finance ──────────────────────────────────────────────────────────────
   const totalRevenue  = invoices.reduce((s,i) => s + i.total, 0);
@@ -146,7 +146,7 @@ function _dashStats() {
   // ── Top customers by freight ──────────────────────────────────────────────
   const custMap = {};
   trips.filter(t => t.status === 'completed').forEach(t => {
-    custMap[t.customer] = (custMap[t.customer] || 0) + (t.freight || 0);
+    custMap[t.customer] = (custMap[t.customer] || 0) + (t.grandTotal || t.freight || 0);
   });
   const topCustomers = Object.entries(custMap)
     .sort((a,b) => b[1]-a[1])
@@ -435,11 +435,11 @@ function renderDashboard() {
                 <tr onclick="navigate('trips')" style="cursor:pointer">
                   <td class="font-bold text-blue">${t.id}</td>
                   <td>${fmtDate(t.date)}</td>
-                  <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis">${t.from} → ${t.to}</td>
+                  <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis">${(t.loadingPoint||t.from||'')} → ${(t.destination||t.to||'')}</td>
                   <td>${KKR.driverName(t.driver)}</td>
                   <td>${KKR.vehicleReg(t.vehicle)}</td>
-                  <td class="text-right">${fmtNum(t.billedWt, 1)}</td>
-                  <td class="font-bold">${fmtCurrency(t.freight)}</td>
+                  <td class="text-right">${fmtNum(t.quantity||t.billedWt||0, 1)}</td>
+                  <td class="font-bold">${fmtCurrency(t.grandTotal||t.freight||0)}</td>
                   <td>${statusBadge(t.status)}</td>
                 </tr>`).join('')}
               </tbody>
@@ -526,8 +526,8 @@ function renderDashboard() {
                 <td class="font-bold text-blue">${t.id}</td>
                 <td>${fmtDate(t.date)}</td>
                 <td>${KKR.customerName(t.customer)}</td>
-                <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.from}→${t.to}</td>
-                <td class="font-bold">${fmtCurrency(t.freight)}</td>
+                <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${(t.loadingPoint||t.from||'')}→${(t.destination||t.to||'')}</td>
+                <td class="font-bold">${fmtCurrency(t.grandTotal||t.freight||0)}</td>
                 <td>${statusBadge(t.status)}</td>
               </tr>`).join('')}
             </tbody>

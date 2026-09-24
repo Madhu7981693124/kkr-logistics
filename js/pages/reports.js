@@ -69,7 +69,7 @@ function renderReportSummary(rev,paid,exp,fuelCost,profit,trips,vehicles,drivers
         ['Completed', trips.filter(t=>t.status==='completed').length],
         ['In Transit', trips.filter(t=>t.status==='in-transit').length],
         ['Pending', trips.filter(t=>t.status==='pending').length],
-        ['Total Freight', fmtCurrency(trips.reduce((s,t)=>s+t.freight,0))],
+        ['Total Freight', fmtCurrency(trips.reduce((s,t)=>s+(t.grandTotal||t.freight||0),0))],
       ].map(([l,v])=>`
         <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(51,65,85,0.4)">
           <span style="font-size:13px; color:var(--text-muted)">${l}</span>
@@ -110,7 +110,7 @@ function renderReportSummary(rev,paid,exp,fuelCost,profit,trips,vehicles,drivers
 function renderTripReport(trips) {
   // Per customer breakdown
   const byCust = {};
-  trips.forEach(t=>{ if(!byCust[t.customer]) byCust[t.customer]={count:0,freight:0}; byCust[t.customer].count++; byCust[t.customer].freight+=t.freight; });
+  trips.forEach(t=>{ if(!byCust[t.customer]) byCust[t.customer]={count:0,freight:0}; byCust[t.customer].count++; byCust[t.customer].freight+=(t.grandTotal||t.freight||0); });
 
   return `
   <div class="card" style="margin-bottom:20px">
@@ -143,11 +143,11 @@ function renderTripReport(trips) {
           <tr>
             <td class="text-blue">${t.id}</td>
             <td>${fmtDate(t.date)}</td>
-            <td>${t.from}→${t.to}</td>
+            <td>${(t.loadingPoint||t.from||'')+'→'+(t.destination||t.to||'')}</td>
             <td>${KKR.customerName(t.customer)}</td>
             <td>${KKR.materialName(t.material)}</td>
-            <td>${fmtNum(t.billedWt,2)}</td>
-            <td class="font-bold">${fmtCurrency(t.freight)}</td>
+            <td>${fmtNum(t.quantity||t.billedWt||0,2)}</td>
+            <td class="font-bold">${fmtCurrency(t.grandTotal||t.freight||0)}</td>
             <td>${statusBadge(t.status)}</td>
           </tr>`).join('')}
         </tbody>
@@ -289,19 +289,31 @@ function initReportCharts() {
 }
 
 function exportTripsReport() {
-  const rows = KKR.getTrips().map(t=>({ id:t.id, date:t.date, customer:KKR.customerName(t.customer), from:t.from, to:t.to, material:KKR.materialName(t.material), billedWt:t.billedWt, freight:t.freight, status:t.status }));
-  exportCSV(['id','date','customer','from','to','material','billedWt','freight','status'], rows, 'trip-report.csv');
+  const rows = KKR.getTrips().map(t=>({
+    id:       t.id,
+    date:     t.date,
+    customer: KKR.customerName(t.customer),
+    from:     t.loadingPoint || t.from || '',
+    to:       t.destination  || t.to   || '',
+    material: KKR.materialName(t.material),
+    qty:      t.quantity     || t.billedWt || 0,
+    amount:   t.grandTotal   || t.freight  || 0,
+    status:   t.status
+  }));
+  exportCSV(['id','date','customer','from','to','material','qty','amount','status'], rows, `kkr-trip-report-${today()}.csv`);
   toast('Exported','success');
 }
 
 function printReports() {
-  const s = KKR.dashboardStats();
+  const invs  = KKR.getInvoices();
+  const exps  = KKR.getExpenses();
+  const trips = KKR.getTrips();
   const html = `
     <h3>Summary</h3>
-    <p>Total Revenue: ${fmtCurrency(KKR.getInvoices().reduce((s,i)=>s+i.total,0))}</p>
-    <p>Collected: ${fmtCurrency(KKR.getInvoices().reduce((s,i)=>s+i.paid,0))}</p>
-    <p>Total Expenses: ${fmtCurrency(KKR.getExpenses().reduce((s,e)=>s+e.amount,0))}</p>
-    <p>Trips Completed: ${s.completedTrips}</p>
-    <p>Active Vehicles: ${s.activeVehicles}</p>`;
+    <p>Total Revenue: ${fmtCurrency(invs.reduce((s,i)=>s+i.total,0))}</p>
+    <p>Collected: ${fmtCurrency(invs.reduce((s,i)=>s+i.paid,0))}</p>
+    <p>Total Expenses: ${fmtCurrency(exps.reduce((s,e)=>s+e.amount,0))}</p>
+    <p>Trips Completed: ${trips.filter(t=>t.status==='completed').length}</p>
+    <p>Active Vehicles: ${KKR.getVehicles().filter(v=>v.status==='active').length}</p>`;
   printSection('Business Report', html);
 }

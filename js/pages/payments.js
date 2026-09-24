@@ -163,8 +163,18 @@ function savePay(e) {
     const invIdx = invs.findIndex(i=>i.id===entry.invoiceId);
     if (invIdx>=0) {
       const oldPay = editingPayId ? (KKR.getPayments().find(x=>x.id===editingPayId)||{}).amount||0 : 0;
-      invs[invIdx].paid = Math.min(invs[invIdx].total, invs[invIdx].paid - oldPay + entry.amount);
-      invs[invIdx].status = invs[invIdx].paid >= invs[invIdx].total ? 'paid' : 'pending';
+      const newPaid = Math.min(invs[invIdx].total, invs[invIdx].paid - oldPay + entry.amount);
+      invs[invIdx].paid = newPaid;
+      const bal = invs[invIdx].total - newPaid;
+      if (bal <= 0) {
+        invs[invIdx].status = 'paid';
+      } else if (newPaid > 0) {
+        invs[invIdx].status = 'partially-paid';
+      } else if (invs[invIdx].dueDate && (typeof daysFromNow === 'function') && daysFromNow(invs[invIdx].dueDate) < 0) {
+        invs[invIdx].status = 'overdue';
+      } else {
+        invs[invIdx].status = 'issued';
+      }
       KKR.saveInvoices(invs);
     }
   }
