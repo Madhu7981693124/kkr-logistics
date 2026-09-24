@@ -336,8 +336,14 @@ function _renderUnlinkedTrips(unlinked) {
 
   return `
   <div class="card" style="border-radius:0 12px 12px 12px">
-    <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">
-      These trips do not have a linked weighbridge slip. Click <strong style="color:var(--text-primary)">Add Slip</strong> to create one.
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div style="font-size:13px;color:var(--text-muted)">
+        These trips do not have a linked weighbridge slip. Click <strong style="color:var(--text-primary)">Add Slip</strong> to create one.
+      </div>
+      <button class="btn btn-sm btn-secondary" onclick="exportTripsWithoutSlip()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export CSV
+      </button>
     </div>
     <div class="table-wrap">
       <table>

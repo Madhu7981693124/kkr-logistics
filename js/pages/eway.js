@@ -407,8 +407,16 @@ function _renderEwayAlerts(allBills) {
 
   return `
   <div class="card" style="border-radius:0 12px 12px 12px">
-    ${expiring.length > 0 ? `
-    <div style="margin-bottom:24px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div>
+        <div style="font-size:15px;font-weight:700">${alerts.length} document alert${alerts.length!==1?'s':''}</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Bills expiring within ${EWAY_EXPIRY_WARN_DAYS} days + recently expired</div>
+      </div>
+      <button class="btn btn-sm btn-secondary" onclick="exportEwayAlerts()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export Alerts
+      </button>
+    </div>
       <div style="font-size:11px;font-weight:700;color:#fbbf24;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;display:flex;align-items:center;gap:8px">
         <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;flex-shrink:0"></span>
         Expiring Within ${EWAY_EXPIRY_WARN_DAYS} Days (${expiring.length})
